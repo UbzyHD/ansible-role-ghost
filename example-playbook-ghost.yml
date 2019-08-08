@@ -1,6 +1,6 @@
 ---
-- name: MySQL
-  hosts: all-dbservers
+- name: Ghost
+  hosts: all
   remote_user: ansible
   become: true
 
@@ -9,8 +9,8 @@
 
   pre_tasks:
 
-    - name: MySQL | Pinging hosts.
+    - name: Ghost | Pinging hosts.
       action: ping
 
   roles:
-    - ubzyhd.mysql
+    - ubzyhd.ghost

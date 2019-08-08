@@ -16,4 +16,4 @@
       setup:
 
   roles:
-    - ubzyhd.mysql
+    - ubzyhd.ghost

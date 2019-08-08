@@ -2,9 +2,9 @@
 dependencies: []
 
 galaxy_info:
-  role_name: mysql
+  role_name: ghost
   author: ubzyhd
-  description: A mysql role to create a database server running MariaDB
+  description: An ansible roel to install the Ghost blogging platform
   company: Ubzy
 
   license: "license (BSD, MIT)"
@@ -22,7 +22,7 @@ galaxy_info:
     - system
     - common
     - debian
-    - mysql
-    - database
-    - db
-    - mariadb
+    - ghost
+    - blogging
+    - wesbite
+    - cms

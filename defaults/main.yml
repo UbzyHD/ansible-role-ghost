@@ -1,13 +1,2 @@
 ---
-
-required_packages:
-  - python-mysqldb
-  - python-pexpect
-
-mysql_root_username: root
-mysql_root_password: "#!1Pass-word"
-
-mysql_port: "3306"
-
-# DO NOT CHANGE
-ci_build_testing: false
+#
