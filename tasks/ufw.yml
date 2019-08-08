@@ -1,5 +1,5 @@
 ---
-- name: ufw.yml | Allow Database traffic through UFW
+- name: ufw.yml | Allow Ghost traffic through UFW
   ufw:
     rule: allow
-    port: "{{ mysql_port }}"
+    port: "{{ ghost_port }}"

@@ -1,16 +1,10 @@
 ---
-- name: MySQL | Running pre-setup of packages
+- name: Ghost | Running pre-setup of packages
   include_tasks: "packages-{{ ansible_os_family }}.yml"
 
-- name: MySQL | Install & Configuring MariaDB
+- name: Ghost | Install & Configuring Ghost
   include_tasks: "mariadb.yml"
 
-- name: MySQL | Running mysql_secure_installation
-  include_tasks: "mysql_secure_installation.yml"
-
-- name: MySQL | Creating test user and database
-  include_tasks: "test.yml"
-
-- name: MySQL | Configuring firewall
+- name: Ghost | Configuring firewall
   include_tasks: "ufw.yml"
   when: not ci_build_testing
