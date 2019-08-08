@@ -1,0 +1,20 @@
+---
+- name: mysql_secure_installation | Removing anonymous users
+  mysql_user:
+    host_all: true
+    check_implicit_admin: true
+    name: ''
+    state: absent
+
+- name: mysql_secure_installation | Removing test databases
+  mysql_db:
+    name: test
+    state: absent
+
+- name: mysql_secure_installation | Changing root username & password
+  mysql_user:
+    host_all: true
+    check_implicit_admin: true
+    name: "{{ mysql_root_username }}"
+    password: "{{ mysql_root_password }}"
+    priv: '*.*:ALL,GRANT'

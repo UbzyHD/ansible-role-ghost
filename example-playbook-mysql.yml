@@ -1,0 +1,16 @@
+---
+- name: MySQL
+  hosts: all-dbservers
+  remote_user: ansible
+  become: true
+
+  gather_facts: true
+  any_errors_fatal: true
+
+  pre_tasks:
+
+    - name: MySQL | Pinging hosts.
+      action: ping
+
+  roles:
+    - ubzyhd.mysql

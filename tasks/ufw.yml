@@ -1,0 +1,5 @@
+---
+- name: ufw.yml | Allow Database traffic through UFW
+  ufw:
+    rule: allow
+    port: "{{ mysql_port }}"

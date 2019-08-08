@@ -1,0 +1,93 @@
+---
+- name: mariadb.yml | Include OS-specific variables.
+  include_vars: "vars-{{ ansible_os_family }}.yml"
+
+- name: mariadb.yml | Checking if MariaDB is installed
+  package_facts:
+    manager: "auto"
+
+- name: mariadb.yml | Adding MariaDB apt key.
+  apt_key:
+    keyserver: keyserver.ubuntu.com
+    id: "0xF1656F24C74CD1D8"
+  when: "'mariadb-server' not in ansible_facts.packages"
+
+- name: mariadb.yml | Adding MariaDB PPA
+  apt_repository:
+    repo: "deb [arch=amd64] http://mirrors.coreix.net/mariadb/repo/10.4/debian {{ ansible_distribution_release }} main"
+    state: present
+  when: "'mariadb-server' not in ansible_facts.packages"
+
+- name: mariadb.yml | Updating Server
+  apt:
+    update_cache: true
+    upgrade: dist
+    autoremove: true
+    purge: true
+  when: "'mariadb-server' not in ansible_facts.packages"
+
+- name: mariadb.yml | Installing MariaDB
+  apt:
+    name: mariadb-server
+    update_cache: true
+    autoremove: true
+    autoclean: true
+    install-recommends: false
+    policy_rc_d: "101"
+    state: present
+  when: ("'mariadb-server' not in ansible_facts.packages" and not ci_build_testing)
+
+- name: mariadb.yml | Installing MariaDB - CI/CD
+  apt:
+    name: mariadb-server
+    update_cache: true
+    autoremove: true
+    autoclean: true
+    install-recommends: false
+    state: present
+  when: ci_build_testing
+
+- name: mariadb.yml | Stop MariaDB after initial install
+  systemd:
+    name: mariadb
+    state: stopped
+  when: "'mariadb-server' not in ansible_facts.packages"
+
+- name: mariadb.yml | Deleting initial log files
+  file:
+    path: /var/lib/mysql/{{ item }}
+    state: absent
+  with_items:
+    - ib_logfile0
+    - ib_logfile1
+  when: "'mariadb-server' not in ansible_facts.packages"
+
+- name: mariadb.yml | Applying MariaDB global configuration
+  template:
+    src: my.cnf.j2
+    dest: /etc/mysql/my.cnf
+    owner: root
+    group: root
+    mode: 0644
+  notify: restart mysql
+
+- name: mariadb.yml | Enabling MariaDB start on boot
+  systemd:
+    name: mysql
+    state: started
+    enabled: true
+
+# - name: mysql_secure_installation.yml | Running through mysql_secure_installation
+#  expect:
+#    echo: true
+#    command: "mysql_secure_installation"
+#    timeout: 30
+#    responses:
+#      (.*)Enter current password for root (enter for none):(.*): ""
+#      (.*)root password?(>*): "y"
+#      (.*)New password:(.*): "12345"
+#      (.*)Re-enter new password:(.*): "12345"
+#      (.*)Remove anonymous users?(.*): "y"
+#      (.*)Disallow root login remotely?(.*): "y"
+#      (.*)Remove test database and access to it?(.*): "y"
+#      (.*)Reload privilege tables now?(.*): "y"

@@ -1,0 +1,28 @@
+---
+dependencies: []
+
+galaxy_info:
+  role_name: mysql
+  author: ubzyhd
+  description: A mysql role to create a database server running MariaDB
+  company: Ubzy
+
+  license: "license (BSD, MIT)"
+
+  min_ansible_version: 2.8
+
+  platforms:
+    - name: Debian
+      versions:
+        - buster
+        - stretch
+
+  galaxy_tags:
+    - server
+    - system
+    - common
+    - debian
+    - mysql
+    - database
+    - db
+    - mariadb
