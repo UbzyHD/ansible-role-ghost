@@ -1,0 +1,16 @@
+---
+- name: dependenices.yml | Fetching list of packages installed
+  package_facts:
+    manager: "auto"
+
+- name: dependenices.yml | NGINX not found
+  debug: 
+    msg: "NGINX not found - Please run the ubzyhd.reverseproxy role"
+  when: "'nginx' not in ansible_facts.packages"
+  meta: end_play
+
+- name: dependenices.yml | MySQL not found
+  debug: 
+    msg: "MariaDB not found - Please run the ubzyhd.mysql role"
+  when: "'mariadb' not in ansible_facts.packages"
+  meta: end_play

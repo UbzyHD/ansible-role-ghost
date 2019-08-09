@@ -1,0 +1,19 @@
+---
+- name: ghost.yml | Installing Ghost-CLI using npm
+  npm:
+    name: ghost-cli
+    global: true
+
+- name: ghost.yml | Creating Ghost web directory
+  file:
+    path: /var/www/ghost
+    state: directory
+    recurse: true
+    owner: foo
+    group: foo
+    mode: "0775"
+
+- name: ghost.yml | Installing Ghost
+  shell: ghost install
+  args:
+    chdir: /var/www/ghost

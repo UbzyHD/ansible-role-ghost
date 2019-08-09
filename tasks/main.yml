@@ -2,8 +2,14 @@
 - name: Ghost | Running pre-setup of packages
   include_tasks: "packages-{{ ansible_os_family }}.yml"
 
+- name: Ghost | Checking Dependencies
+  include_tasks: "dependencies.yml"
+
+- name: Ghost | Install & Configuring Node.js
+  include_tasks: "nodejs.yml"
+
 - name: Ghost | Install & Configuring Ghost
-  include_tasks: "mariadb.yml"
+  include_tasks: "ghost.yml"
 
 - name: Ghost | Configuring firewall
   include_tasks: "ufw.yml"

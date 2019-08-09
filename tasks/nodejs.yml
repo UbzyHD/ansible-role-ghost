@@ -1,0 +1,18 @@
+---
+- name: nodejs.yml | Downloading Node.js APT script
+  get_url:
+    url: https://deb.nodesource.com/setup_10.x
+    dest: ~/nodejs.sh
+    checksum: sha256:8ed2f196b1e378baf7dca460efb5fc26a0e6c62ed516beb781ffb45fe12315fb
+
+- name: nodejs.yml | Running Node.js APT script
+  script: ~/nodejs.sh
+
+- name: nodejs.yml | Installing Node.js
+  apt:
+    name: nodejs
+    update_cache: true
+    autoremove: true
+    autoclean: true
+    install-recommends: false
+    state: present
